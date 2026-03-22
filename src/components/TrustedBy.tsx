@@ -27,7 +27,7 @@ export default function TrustedBy() {
         <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
         <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
 
-        <div className="flex animate-[marquee_40s_linear_infinite] group-hover:[animation-play-state:paused] whitespace-nowrap items-center">
+        <div className="flex animate-marquee group-hover:[animation-play-state:paused] whitespace-nowrap items-center">
           {/* First set of logos */}
           {logos.map((logo, index) => (
             <div 

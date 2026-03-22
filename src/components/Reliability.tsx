@@ -73,7 +73,7 @@ export default function Reliability() {
             <img 
               src="https://i.ibb.co/PstN3YM9/imgi-44-Market-area-768x422.png" 
               alt="Market Area" 
-              className="w-full h-auto object-contain drop-shadow-xl transition-transform duration-500 hover:scale-[1.02] text-[18px] scale-105"
+              className="w-full h-auto object-contain drop-shadow-xl transition-transform duration-500 hover:scale-[1.02] scale-105"
               referrerPolicy="no-referrer"
             />
           </div>

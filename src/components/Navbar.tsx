@@ -1,8 +1,35 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdown(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const menuItems = {
+    about: [
+      { name: 'Our Mission', href: '#' },
+      { name: 'Our Vision', href: '#' },
+      { name: 'Company History', href: '#' },
+      { name: 'Sustainability', href: '#' },
+    ],
+    products: [
+      { name: 'IceBattery® Fresh', href: '#' },
+      { name: 'IBPS Digital Platform', href: '#' },
+      { name: 'Medical Cold Chain', href: '#' },
+      { name: 'Logistics Solutions', href: '#' },
+    ]
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-pure-white shadow-md py-4 transition-all duration-300">
@@ -18,16 +45,49 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8 font-body text-[14px] font-medium text-dark-charcoal">
+        <div className="hidden md:flex items-center gap-8 font-body text-[14px] font-medium text-dark-charcoal" ref={dropdownRef}>
           <a href="#" className="nav-link">Home</a>
-          <div className="relative group flex items-center gap-1 cursor-pointer">
-            <span className="nav-link">About Us</span>
-            <ChevronDown size={14} />
+          
+          {/* About Us Dropdown */}
+          <div className="relative group">
+            <button 
+              className="flex items-center gap-1 cursor-pointer hover:text-primary-green transition-colors"
+              onClick={() => setActiveDropdown(activeDropdown === 'about' ? null : 'about')}
+            >
+              <span className="nav-link">About Us</span>
+              <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === 'about' ? 'rotate-180' : ''}`} />
+            </button>
+            {activeDropdown === 'about' && (
+              <div className="absolute top-full left-0 mt-4 w-48 bg-white shadow-xl rounded-lg border border-gray-100 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                {menuItems.about.map((item) => (
+                  <a key={item.name} href={item.href} className="block px-4 py-2 hover:bg-light-gray hover:text-primary-green transition-colors">
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
-          <div className="relative group flex items-center gap-1 cursor-pointer">
-            <span className="nav-link">Products</span>
-            <ChevronDown size={14} />
+
+          {/* Products Dropdown */}
+          <div className="relative group">
+            <button 
+              className="flex items-center gap-1 cursor-pointer hover:text-primary-green transition-colors"
+              onClick={() => setActiveDropdown(activeDropdown === 'products' ? null : 'products')}
+            >
+              <span className="nav-link">Products</span>
+              <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === 'products' ? 'rotate-180' : ''}`} />
+            </button>
+            {activeDropdown === 'products' && (
+              <div className="absolute top-full left-0 mt-4 w-56 bg-white shadow-xl rounded-lg border border-gray-100 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                {menuItems.products.map((item) => (
+                  <a key={item.name} href={item.href} className="block px-4 py-2 hover:bg-light-gray hover:text-primary-green transition-colors">
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
+
           <a href="#" className="nav-link">Logistics</a>
           <a href="#" className="nav-link">Digital (DX)</a>
           <a href="#" className="nav-link">Medical</a>

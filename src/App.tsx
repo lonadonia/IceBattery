@@ -13,6 +13,7 @@ import Reliability from './components/Reliability';
 import TrustedBy from './components/TrustedBy';
 import News from './components/News';
 import Footer from './components/Footer';
+import AIAssistant from './components/AIAssistant';
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         <News />
       </main>
       <Footer />
+      <AIAssistant />
     </div>
   );
 }
